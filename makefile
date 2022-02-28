@@ -14,7 +14,7 @@ BINARI = src/easybashgui src/easybashgui-debug src/easydialog-legacy
 ICONE = icons/Ok.xpm icons/Attenzione.xpm
 LIBRERIE = lib/easybashgui.lib lib/easybashlib
 MANUALE = easybashgui.1.gz
-DOCUMENTAZIONE = EasyBashGUI-license README
+DOCUMENTAZIONE = EasyBashGUI-license README easybashgui_test.sh
 
 build:
 	#we don't need to build, because all the excutable files are scripts.
