@@ -1,3 +1,9 @@
+---
+layout: default
+title: easyBashGUI: Posix compliant Bash functions library that aims to give simple GUI functions
+canonical_url: 'https://github.com/BashGui/easybashgui'
+---
+
 # EasyBashGUI.
 
 # [homepage](https://github.com/BashGui/easybashgui)
