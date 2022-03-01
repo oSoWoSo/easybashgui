@@ -1,9 +1,19 @@
+---
+layout: default
+title: easyBashGUI: Posix compliant Bash functions library that aims to give simple GUI functions
+canonical_url: 'https://github.com/BashGui/easybashgui'
+---
+
 # EasyBashGUI.
 
 # [homepage](https://github.com/BashGui/easybashgui)
 
 
 ## Intro.
+
+You can test it running `chmod +x easybashgui_test.sh && ./easybashgui_test.sh`
+
+[ raw easybashgui_test.sh ](https://raw.githubusercontent.com/oSoWoSo/easybashgui/github-patch/easybashgui_test.sh)
 
 EasyBashGUI is a Posix compliant Bash functions library that aims to give simple GUI functions using yad, gtkdialog, kdialog, zenity, Xdialog, dialog, or whiptail depending on KDE or GNOME running or not, Yad, Gtkdialog or Xdialog installed or not and X server running or not ( (c)dialog or whiptail is the minimum ).
 
