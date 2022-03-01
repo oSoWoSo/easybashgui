@@ -6,7 +6,7 @@ canonical_url: 'https://github.com/BashGui/easybashgui'
 
 # EasyBashGUI.
 
-# [homepage](https://github.com/BashGui/easybashgui)
+#### [homepage](https://github.com/BashGui/easybashgui)
 
 
 ## Intro.
@@ -63,11 +63,9 @@ is possible making easybashgui work even if it's not installed in your system,
 
 ## Since 8.0.0 version:
 
-project is housed at [Github](https://github.com/BashGui). Thanks, Github people! :)
-
-
-
-
+project is housed at
+#### [Github](https://github.com/BashGui)
+Thanks, Github people! :)
 
 
 ## Library functions.
@@ -321,6 +319,6 @@ This way, in theory, could be possibly dangerous; nevertheless, so far, I don't 
 
 **Vittorio Cagnetta**
 
-mailto:vaisarger@gmail.com
+#### mailto:vaisarger@gmail.com
 
-[github](https://github.com/BashGui/easybashgui)
+#### [github](https://github.com/BashGui/easybashgui)
