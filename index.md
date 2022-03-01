@@ -3,6 +3,7 @@ layout: default
 title: easyBashGUI: Posix compliant Bash functions library that aims to give simple GUI functions
 canonical_url: 'https://github.com/BashGui/easybashgui'
 ---
+#### [oSoWoSo](https://osowoso.xyz)
 
 # EasyBashGUI.
 
@@ -322,3 +323,7 @@ This way, in theory, could be possibly dangerous; nevertheless, so far, I don't 
 #### mailto:vaisarger@gmail.com
 
 #### [github](https://github.com/BashGui/easybashgui)
+		
+[up](./)
+
+#### [oSoWoSo](https://osowoso.xyz)
