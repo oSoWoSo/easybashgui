@@ -1,0 +1,223 @@
+#!/usr/bin/env bash
+#
+
+# easy creator for easybashgui 
+# copyright (c) 2022
+# zenobit
+# https://osowoso.xyz
+# <zen@osowoso.xyz>
+# 
+# licensed under EUPL 1.2
+#
+
+# This is only used for remove STDERR output...
+#
+#exec 6>&2 ; exec 2> /dev/null
+##################
+
+# Nice name and source easybashgui
+export supertitle="easy GUI creator for easybashgui" ; source easybashgui
+LIB_CHECK="$(type "easybashgui" 2> /dev/null )"
+[ ${#LIB_CHECK} -eq 0 ]\
+ && echo -e "\n\n\n\nYou need to copy \"easybashgui\" in your path ( e.g.: \"cp easybashgui_X.X.X /bin/\" )...\n:(\n\n\n\n Let's do it..." 1>&2\
+ && git clone https://github.com/BashGui/easybashgui /tmp/easybashgui\
+ && cd /tmp/easybashgui\
+ && sudo make install
+
+progname=${progname:="${0##*/}"}
+version='0.1 dev'
+answer="$(cat "${dir_tmp}/${file_tmp}" )"
+project=""
+EDITOR="geany"
+TERM="qterminal"
+help="   easy GUI creator for easybashgui\
+\n\n\n  Copyright (c) 2022 zenobit\
+\n\n	https://osowoso.xyz\
+\n\n	<zen@osowoso.xyz>\
+\n\n   licensed under EUPL 1.2"
+
+about(){
+	message "\n		$progname\n\n	version: $version\n\n\n  $help"
+}
+
+empty_arg(){
+	local FUNCT_NAME="empty_arg"
+	local IFS=$' \t\n'
+	#
+	var_da_controllare="${1}"
+	if [ $(echo -n "${!var_da_controllare}" | wc -c ) -eq 0 ]
+			then
+			#
+			return
+	fi
+}
+
+# project menu
+project_menu(){
+	while :
+	do
+	tagged_menu\
+	 createproject 'create new project'\
+	 loadproject 'load project'\
+	 renameproject 'rename project'\
+	 runproject 'run project'\
+	 editproject 'edit project'\
+	 deleteproject 'DELETE created project !!!'\
+	 exit 'EXIT !!!'
+	answer="$(cat "${dir_tmp}/${file_tmp}" )"
+	case "${answer}" in
+		createproject) project_create ;;
+		loadproject) project_load ;;
+		renameproject) project_rename ;;
+		runproject) project_run ;;
+		editproject) project_edit ;;
+		deleteproject) project_delete ;;
+		'exit') exit ;;
+		*)	main_menu;;
+	esac
+	done
+}
+
+project_create(){
+	dselect
+	projectpath="$(cat "${dir_tmp}/${file_tmp}" )"
+	input 2 'name' '(Enter project title)' 'project' '(Enter project name)'
+	IFS=$'\n' ; choices=( $(0< "${dir_tmp}/${file_tmp}" ) ) ; IFS=$' \t\n'
+	projectfile="${choices[0]}"
+	projecttitle="${choices[1]}"
+	project="$projectpath/$projectfile"
+	touch "$project" && echo '#!/usr/bin/env bash
+#
+
+# This is only used for remove STDERR output...
+#
+#exec 6>&2 ; exec 2> /dev/null
+##################
+
+# Nice name and source easybashgui
+export supertitle="" ; source easybashgui
+LIB_CHECK="$(type "easybashgui" 2> /dev/null )"
+[ ${#LIB_CHECK} -eq 0 ]\
+ && echo -e "\n\n\n\nYou need to copy \"easybashgui\" in your path ( e.g.: \"cp easybashgui_X.X.X /bin/\" )...\n:(\n\n\n\n Do it..." 1>&2\
+ && git clone https://github.com/BashGui/easybashgui /tmp/easybashgui\
+ && cd /tmp/easybashgui\
+ && sudo make install
+
+progname=${progname:="${0##*/}"}
+version=".1 dev"
+answer="$(cat "${dir_tmp}/${file_tmp}" )"
+project=""
+EDITOR="geany"
+
+message "Hello world!"
+' > "$project" && chmod +x "$project"
+	export project
+}
+
+project_delete(){
+	question "really? \n\n\n remove your project?"
+	answer="${?}"
+	if [ ${answer} -eq 0 ]; then
+		rm "$project"
+		project_menu
+	elif [ ${answer} -eq 1 ]; then
+		main_menu
+	fi
+}
+
+project_edit(){
+	"$EDITOR" "$project"
+}
+
+project_load(){
+	fselect
+	project="$(cat "${dir_tmp}/${file_tmp}" )"
+	echo "$project"
+	export project
+}
+
+project_name(){
+	input 1 "title"
+	IFS=$'\n' ; choices=( $(0< "${dir_tmp}/${file_tmp}" ) ) ; IFS=$' \t\n'
+	supertitle="${choices[0]}"
+	export supertitle > "$project"
+}
+
+project_rename(){
+	echo to do
+}
+
+project_run(){
+	"$project"
+}
+
+# create menu
+create_menu(){
+	tagged_menu\
+	 menu_menu menu\
+	 tag_menu 'tagged menu'\
+	 list list\
+	 message message\
+	 text text\
+	 question question\
+	 wait wait\
+	 select select\
+	 input input\
+	 progress progress\
+	 adjust adjust
+}
+
+# main menu
+main_menu(){
+while :
+do
+tagged_menu\
+ project 'project menu'\
+ create 'create menu'\
+ text 'create text'\
+ message 'create message'\
+ question 'create question'\
+ input 'create input'\
+ select 'create select'\
+ wait 'crete wait'\
+ progress 'create progress'\
+ adjust 'create adjust'\
+ notify 'create notify'\
+ about about\
+ exit 'EXIT !!!'
+answer="$(cat "${dir_tmp}/${file_tmp}" )"
+case "${answer}" in
+	# menu
+	project) project_menu ;;
+	# about
+	about) about ;;
+	# create menu
+	create) create_menu ;;
+	# create text
+	text) text_menu ;;
+	# create message
+	message) message_menu ;;
+	# create question
+	question) question_menu ;;
+	# create input
+	input) input_menu ;;
+	# create select file or dir
+	'select') select_menu ;;
+	# create wait
+	wait) wait_menu ;;
+	# create progress
+	progress) progress_menu ;;
+	# create adjust
+	adjust) adjust_menu ;;
+	# create notify
+	notify) notify_menu ;;
+	# exit
+	'exit') exit ;;
+	*)	echo "You choosed nothing, exiting... " && exit 255;;
+esac
+done
+}
+
+main_menu
+
+exit 0
