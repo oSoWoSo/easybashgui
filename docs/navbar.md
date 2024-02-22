@@ -2,4 +2,4 @@
 - [Install](docs/install.md)
 - [Docs](docs/)
 - [Packages](https://software.opensuse.org//download.html?project=home%3Avenenux%3Abashgui&package=easybashgui)
-- [Themes](Themes/)
+- [Themes](docs/Themes/)
