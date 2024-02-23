@@ -139,6 +139,33 @@
 	<div id="components"></div>
 	<div id="content"></div>
 	<div id="footer"></div>
+
+	<nav id="docs-navbar">
+		<ul>
+			<li><a href="#">Domů</a></li>
+			<li><a href="#">O nás</a></li>
+			<li><a href="#">Služby</a></li>
+			<!-- Přidání odkazů pro tmavé a světlé téma -->
+			<li><a href="#" onclick="toggleTheme('dark')">Tmavé téma</a></li>
+			<li><a href="#" onclick="toggleTheme('light')">Světlé téma</a></li>
+		</ul>
+	</nav>
+
+	<script>
+		// Funkce pro přepínání mezi tmavým a světlým tématem
+		function toggleTheme(theme) {
+			if (theme === 'dark') {
+				document.documentElement.style.setProperty('--text-color', '#ffffff');
+				document.documentElement.style.setProperty('--background-color', '#1a1a1a');
+				// Další nastavení pro tmavé téma
+			} else if (theme === 'light') {
+				document.documentElement.style.setProperty('--text-color', '#000000');
+				document.documentElement.style.setProperty('--background-color', 'white');
+				// Další nastavení pro světlé téma
+			}
+			// Můžete přidat další nastavení pro obě témata
+		}
+	</script>
 </body>
 <script>
 	const markedProps = {};
