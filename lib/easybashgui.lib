@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-#####################################
-#####################################
+##############################################################
+##############################################################
 #
 # EasyBashGUI allows you to use SAME script
 # with yad, gtkdialog, kdialog, zenity, qarma, Xdialog, gum, (c)dialog, whiptail or bare bash !!!!
@@ -12,30 +12,19 @@
 #
 # Author: Vittorio Cagnetta <vaisarger@gmail.com>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; version 3 of the License.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along with this program, 
-# called, in this distribution, "EasyBashGUI-license"; if not, write to the 
-# Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+# This program is free software: please, see file LICENSE along with this program.
 #
 #########################
 #
 #	Dedicated to Angela, Nicole and Carlo.
 #
-#			Vittorio Cagnetta
+#			    Vittorio Cagnetta
 #	https://sites.google.com/site/easybashgui
 #
-#####################################
-#####################################
+##############################################################
+##############################################################
 #
-LIB_VERSION="15.0.0"
+LIB_VERSION="15.0.1"
 LIB_NAME="easybashgui.lib"
 LIB_URL="https://github.com/BashGui/easybashgui"
 LIB_AUTHOR="Vittorio Cagnetta"
@@ -1938,7 +1927,7 @@ if [ "${notify_send}" = "SI" ]
 		#
 		##############################
 		#
-		[ ${#notify_send_seconds_user} -gt 0 ] && notify_send_seconds_user=$(echo "${notify_send_seconds_user}" | tr -dc [[:digit:]] )
+		[ ${#notify_send_seconds_user} -gt 0 ] && notify_send_seconds_user=$(echo "${notify_send_seconds_user}" | tr -dc '[[:digit:]]' )
 		[ ${#notify_send_seconds_user} -gt 0 ] && \
 			notify_send_milliseconds=$(( ${notify_send_seconds_user} * 1000 )) || \
 			notify_send_milliseconds=$(( ${notify_send_seconds} * 1000 ))
@@ -1989,7 +1978,7 @@ elif [ "${notify_send}" = "NO" ]
 		#########################################
 		#
 		: notify_send_seconds
-		[ ${#notify_send_seconds_user} -gt 0 ] && notify_send_seconds_user=$(echo "${notify_send_seconds_user}" | tr -dc [[:digit:]] )
+		[ ${#notify_send_seconds_user} -gt 0 ] && notify_send_seconds_user=$(echo "${notify_send_seconds_user}" | tr -dc '[[:digit:]]' )
 		[ ${#notify_send_seconds_user} -gt 0 ] && \
 			notify_send_seconds_alt=${notify_send_seconds_user} || \
 			notify_send_seconds_alt=${notify_send_seconds}
@@ -2043,7 +2032,7 @@ elif [ "${notify_send}" = "NO" ]
 			#########################################
 			#
 			: notify_send_seconds
-			[ ${#notify_send_seconds_user} -gt 0 ] && notify_send_seconds_user=$(echo "${notify_send_seconds_user}" | tr -dc [[:digit:]] )
+			[ ${#notify_send_seconds_user} -gt 0 ] && notify_send_seconds_user=$(echo "${notify_send_seconds_user}" | tr -dc '[[:digit:]]' )
 			[ ${#notify_send_seconds_user} -gt 0 ] && \
 				notify_send_seconds_gum=${notify_send_seconds_user} || \
 				notify_send_seconds_gum=${notify_send_seconds}
@@ -2099,7 +2088,7 @@ elif [ "${notify_send}" = "NO" ]
 			##############################
 			#
 			: notify_send_seconds
-			[ ${#notify_send_seconds_user} -gt 0 ] && notify_send_seconds_user=$(echo "${notify_send_seconds_user}" | tr -dc [[:digit:]] )
+			[ ${#notify_send_seconds_user} -gt 0 ] && notify_send_seconds_user=$(echo "${notify_send_seconds_user}" | tr -dc '[[:digit:]]' )
 			[ ${#notify_send_seconds_user} -gt 0 ] && \
 				notify_send_seconds_else=${notify_send_seconds_user} || \
 				notify_send_seconds_else=${notify_send_seconds}
@@ -3545,7 +3534,7 @@ elif [ "${mode}" = "gum" ]
 			#
 			frame "${widget_color}" "$(echo -e "${window_title}\n(CTRL+D to finish)" )" && echo
 			file_input_content="$(0< "${file_input}" )"
-			file_input_lines=$(echo -e "${file_input_content}" | wc -l | tr -dc [[:digit:]] );  [ ${file_input_lines} -le 7 ] && gum_write_lines=7 || gum_write_lines=${file_input_lines}
+			file_input_lines=$(echo -e "${file_input_content}" | wc -l | tr -dc '[[:digit:]]' );  [ ${file_input_lines} -le 7 ] && gum_write_lines=7 || gum_write_lines=${file_input_lines}
 			echo -e "${file_input_content}" | gum write --height=${file_input_lines} --width=100 --char-limit=0 --placeholder "(CTRL+D to finish)" | tee "${dir_tmp}/${file_tmp}" | cat - 1>&2
 			#
 		elif [ ${#editable} -eq 0 ]

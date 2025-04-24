@@ -74,7 +74,7 @@ There are (sometimes old, please check easybashgui-x.x.x.tar.gz first! ) for som
 
 ## Credits.
 
-* Thanks to Bash, Yad, Gtkdialog, Xdialog, Kdialog, Zenity, Gum, Cdialog, and Whiptail authors, this library was nothing without their work. Many thanks.
+* Thanks to Bash, Yad, Gtkdialog, Xdialog, Kdialog, Zenity, Qarma, Gum, Cdialog, and Whiptail authors, this library was nothing without their work. Many thanks.
 * Thanks to PICCORO McKAY Lenz for his efforts and *excellent* work on README (and bug hunting too).
 * Thanks to zen0bit for first try and README impulse revival.
 * Thanks to Frank Dietermann for suggestion though to make EBG "posix compliant" (since vers. 11.X.X )
@@ -92,5 +92,5 @@ https://github.com/BashGui/easybashgui
 
 ## LICENSE
 
-GPLv3+, check [LICENSE](LICENSE) file!
+New BSD License, check [LICENSE](LICENSE) file!
 

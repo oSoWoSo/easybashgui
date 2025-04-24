@@ -159,6 +159,7 @@ transparently, based on the availability of the widget backends (frontends).
   * gtkdialog
   * kdialog
   * zenity
+  * qarma
   * Xdialog
 
 If there is no dialog/cdialog support installed. Check next section about `supermode`!
@@ -328,8 +329,9 @@ echo -e "What's your name?\n\nMy name's:\nVittorio" | text
 
 It create a box window with such text and returns control to main program... 
 during that you can made more commands, all of this time such box window with 
-progress bar will be present while your following commands will be executed, 
-after all of those job, you can close with an specific special function:
+progress bar will be present (if you don't like progress bar, use '-n' option) 
+while your following commands will be executed, and after all of those job, 
+you can close with an specific special function:
 
 ```bash
 source easybashgui
@@ -386,7 +388,7 @@ dir="${choices[2]}"
 
 #### Progress bar
 
-You can piped the progress count to a text of a box:
+You can pipe the progress count to a text of a box:
 
 ```bash
 source easybashgui
@@ -424,7 +426,7 @@ choice="$(0< "${dir_tmp}/${file_tmp}" )"
 #### Choose items
 
 Same as menus but allows to choose more than one item to you, 
-it's just elements and the selections will be in the temporally file;
+it's just elements and the selections will be in the temporary file;
 
 ```bash
 list "+Red" "-Yellow" "+Green"
@@ -454,7 +456,7 @@ done | progress "This is a _LOVE_ progress..." "${#women[@]}"
 
 #### A notification example
 
-This is only possible with Yad backend:
+This is *only* possible with Yad backend:
 
 ```bash
 source easybashgui
@@ -958,7 +960,7 @@ notify [-c "<command>"] [-i "<icongood|iconbad>"] [-t "<textgood|textbad>"] "<it
 
 EasyBashGUI doesn't work with original "dialog" ( old one ) that is very limited; if you have first version "dialog" in your box, install "cdialog" and alias or link "dialog" to cdialog.
 
-Since 5.0.0 version you can use EasyBashGUI even if NO WIDGET backend is installed (that is: no yad, no gtkdialog, no kdialog, no zenity, no Xdialog, no gum, no (c)dialog... doh!!!!! ). To use "super bare" EBG, simply remove the ".lib" library from your path, or set "supermode" var to "none" before easybashgui sourcing (e.g.: >export supermode="none" && source easybashgui && message "Hello world..." )
+Since 5.0.0 version you can use EasyBashGUI even if NO WIDGET backend is installed (that is: no yad, no gtkdialog, no kdialog, no zenity, no qarma, no Xdialog, no gum, no (c)dialog... doh!!!!! ). To use "super bare" EBG, simply remove the ".lib" library from your path, or set "supermode" var to "none" before easybashgui sourcing (e.g.: >export supermode="none" && source easybashgui && message "Hello world..." )
 
 EasyBashGUI sets gtkdialog output statements as variables through "eval". This way, in theory, could be possibly dangerous; nevertheless, so far, I don't know about any alternative way...
 
