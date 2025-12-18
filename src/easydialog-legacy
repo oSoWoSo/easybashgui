@@ -142,7 +142,7 @@ case ${funct} in
 	"wait_seconds"|"wait_for"|"terminate_wait_for"|\
 	"fselect"|"dselect"|\
 	"input"|\
-	"menu"|"list"|\
+	"menu"|"tagged_menu"|"list"|\
 	"progress"|\
 	"adjust" )
 		:;;

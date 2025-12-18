@@ -757,7 +757,7 @@ Those variables are filled when the action its completed:
 * `${file_tmp}` a random file name where is content has the path of the chosen dir
 
 ``` bash
-fselect "[/path/to/directory/]"
+dselect "[/path/to/directory/]"
 ```
 
 #### input
@@ -897,7 +897,7 @@ Those variables are filled when the action its completed:
 * `${file_tmp}` random file name where is content has the values selected in order
 
 ``` bash
-ajust "[text]" "[min]" "[init]" "[max]"
+adjust "[text]" "[min]" "[init]" "[max]"
 ```
 
 

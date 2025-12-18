@@ -24,7 +24,7 @@
 ##############################################################
 ##############################################################
 #
-LIB_VERSION="15.0.1"
+LIB_VERSION="15.0.2"
 LIB_NAME="easybashgui.lib"
 LIB_URL="https://github.com/BashGui/easybashgui"
 LIB_AUTHOR="Vittorio Cagnetta"
@@ -151,7 +151,7 @@ string_to_clean=':1: error: unexpected .*, expected .* - e.g. .*'
 #
 #####################################
 #
-# ... yad, gtkdialog, kdialog, zenity, Xdialog, gum or dialog ??? (since its experimental support, "qarma" has to be forced through "supermode")
+# ... yad, gtkdialog, kdialog, zenity, Xdialog, gum or dialog ? (NOTE: since its experimental support, "qarma" has to be forced through "supermode")
 #
 ################
 #
@@ -500,7 +500,7 @@ if [ "${yad}" = "SI" ]
 	if [ "${mode}" != "dialog" -a "${mode}" != "kdialog" ] # ...whatever dialog but "dialog" and "kdialog", moreover...
 		then
 		# ...only if DISPLAY var is set...
-		if [ ${#DISPLAY} -gt 0 ]
+		if [ ${#WAYLAND_DISPLAY} -gt 0 -o ${#DISPLAY} -gt 0 ]
 			then
 			# ;)
 			mode="yad"
@@ -903,16 +903,28 @@ elif [ "${mode}" = "gtkdialog" ]
 	#
 elif [ "${mode}" = "kdialog" ]
 	then
-	x_root=$(xwininfo -root | gsed -n s\#'^.*-geometry[[:blank:]]\([[:digit:]]\+\)[[:alpha:]]\([[:digit:]]\+\).*$'#'\1'#p )
-	y_root=$(xwininfo -root | gsed -n s\#'^.*-geometry[[:blank:]]\([[:digit:]]\+\)[[:alpha:]]\([[:digit:]]\+\).*$'#'\2'#p )
-	if [ ${#x_root} -gt 0 -a ${#y_root} -gt 0 ]
+	esistenza_xwininfo="$(type "xwininfo" 2> /dev/null )"
+	if [ ${#esistenza_xwininfo} -gt 0 ]
 		then
-		x="+$(( $(( ${x_root} / 2 )) - $(( ${width} / 2 )) ))"
-		y="+$(( $(( ${y_root} / 2 )) - $(( ${height} / 2 )) ))"
+		#
+		x_root=$(xwininfo -root | gsed -n s\#'^.*-geometry[[:blank:]]\([[:digit:]]\+\)[[:alpha:]]\([[:digit:]]\+\).*$'#'\1'#p )
+		y_root=$(xwininfo -root | gsed -n s\#'^.*-geometry[[:blank:]]\([[:digit:]]\+\)[[:alpha:]]\([[:digit:]]\+\).*$'#'\2'#p )
+		if [ ${#x_root} -gt 0 -a ${#y_root} -gt 0 ]
+			then
+			x="+$(( $(( ${x_root} / 2 )) - $(( ${width} / 2 )) ))"
+			y="+$(( $(( ${y_root} / 2 )) - $(( ${height} / 2 )) ))"
+		fi
+		#
+		# => then:
+		dimensione_finestra="--geometry=${width}x${height}${x}${y}"
+		dimensione_finestra_1="--geometry=${width}x${height}${x}${y}"
+		#
+	else
+		#
+		dimensione_finestra=""
+		dimensione_finestra_1=""
+		#
 	fi
-	#
-	dimensione_finestra="--geometry=${width}x${height}${x}${y}"
-	dimensione_finestra_1="--geometry=${width}x${height}${x}${y}"
 	dimensione_finestra_2=""
 	no_tags=""
 	no_buttons=""
@@ -8284,22 +8296,81 @@ elif [ "${mode}" = "kdialog" ]
 			#
 		fi #if [ ${#} -ge 2 ]
 		#
-		qdbus_or_dcop="$(if [ $(echo -n "$(type qdbus 2>/dev/null)" | wc -c ) -gt 0 ]
+		qdbus_or_dcop="qdbus"
+		export qdbus_bin="$(for dir in $(echo $PATH | tr ':' '\n'); do find "$dir" -name "qdbus"; done | head -n 1 )"
+		if [ ${#qdbus_bin} -gt 0 ]
+			then
+			#
+        		: qdbus_or_dcop
+        		: qdbus_bin
+        		qdbus_or_dcop_bin="${qdbus_bin}"
+			#
+		else
+			#
+			export qdbus_bin="$(for dir in $(echo $PATH | tr ':' '\n'); do find "$dir" -name "qdbus?"; done | head -n 1 )"
+			if [ ${#qdbus_bin} -gt 0 ]
+				then
+				#
+				: qdbus_or_dcop
+				: qdbus_bin
+				qdbus_or_dcop_bin="${qdbus_bin}"
+				#
+			else
+				#
+				export qdbus_bin="$(for dir in $(echo $PATH | tr ':' '\n'); do find "$dir" -name "qdbus*qt?"; done | head -n 1 )"
+				if [ ${#qdbus_bin} -gt 0 ]
 					then
-					echo "qdbus" 
+					#
+					: qdbus_or_dcop
+					: qdbus_bin
+					qdbus_or_dcop_bin="${qdbus_bin}"
+					#
 				else
-					echo "dcop"
-				fi )"
+					#
+					qdbus_or_dcop="dcop"
+					qdbus_or_dcop_bin="dcop"
+                			#
+				fi
+				#
+			fi
+			#
+		fi
 		#
-		# Creazione della finestra...
-		progress_var="$(${dialogo} --title "${supertitle:-EasyBashGUI}" ${progress} "$(echo -e "${testo}" )" ${steps} )" ; ${qdbus_or_dcop} ${progress_var} showCancelButton "true"
+		if [ "${qdbus_or_dcop}" = "dcop" ]
+			then
+			#
+			if [ $(echo -n "$(type "dcop" 2>/dev/null)" | wc -c ) -gt 0 ]
+				then
+				#
+				: qdbus_or_dcop
+				#
+			else
+				#
+				qdbus_or_dcop="notify_progress"
+				#
+			fi
+			#
+		fi
+		#
+		###
+		#
+		# qdbus_or_dcop is: qdbus|dcop|notify_progress ...
+		# =>
+		if [ "${qdbus_or_dcop}" != "notify_progress" ]
+			then
+			# Creazione della finestra...
+			progress_var="$(${dialogo} --title "${supertitle:-EasyBashGUI}" ${progress} "$(echo -e "${testo}" )" ${steps} )"
+			${qdbus_or_dcop_bin} ${progress_var} showCancelButton "true"
+			#
+		fi
 		#
 		# Loop dei valori...
 		conteggio=0
-		until [ "$(${qdbus_or_dcop} ${progress_var} wasCancelled )" = "true" ]
+		until [ "$(${qdbus_or_dcop_bin} ${progress_var} wasCancelled 2>/dev/null )" = "true" ]
 			do
 			# Leggi lo StdIn...		
 			read standard_input
+			[ ${#standard_input} -eq 0 ] && break
 			if [ "${standard_input}" = "PROGRESS" ]
 				then
 				#
@@ -8314,20 +8385,24 @@ elif [ "${mode}" = "kdialog" ]
 			# Setta la barra...
 			if [ "${qdbus_or_dcop}" = "qdbus" ]
 				then
-				${qdbus_or_dcop} ${progress_var} Set "" "value" ${conteggio} 1> /dev/null
+				${qdbus_or_dcop_bin} ${progress_var} Set "" "value" ${conteggio} 1> /dev/null
 				#
 			elif [ "${qdbus_or_dcop}" = "dcop" ]
 				then
-				${qdbus_or_dcop} ${progress_var} setProgress ${conteggio}
+				${qdbus_or_dcop_bin} ${progress_var} setProgress ${conteggio}
+				#
+			elif [ "${qdbus_or_dcop}" = "notify_progress" ]
+				then
+				#
+				notify_message "${supertitle:-EasyBashGUI}: $(echo -e "${testo}" ) ${conteggio}"
 				#
 			fi
 			#
 			# Alla fine esci dal loop...
-			risultato=$(echo "scale=10; ${conteggio} == ${steps}" | bc -l )
-			[ ${risultato} -eq 1 ] && break
+			risultato=$(echo "scale=10; ${conteggio} == ${steps}" | bc -l ); [ ${risultato} -eq 1 ] && break
 			#
 		done
-		sleep 1 ; ${qdbus_or_dcop} ${progress_var} close
+		sleep 1 ; [ "${qdbus_or_dcop}" != "notify_progress" ] && ${qdbus_or_dcop_bin} ${progress_var} close
 		#exit_if_user_closes_window
 		#
 		}
